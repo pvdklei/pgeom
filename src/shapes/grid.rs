@@ -34,7 +34,7 @@ pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Ve
 fn vertex(x: f32, y: f32, z: f32) -> Vertex {
 	Vertex {
 		uv: [x, y],
-		position: [x - 0.5, y - 0.5, 0.0], // to get center at origin
+		position: [x - 0.5, y - 0.5, z], // to get center at origin
 		normal: [0.0, 0.0, 1.0],
 		tangent: [0.0, 1.0, 0.0],
 	}
