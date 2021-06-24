@@ -6,8 +6,8 @@ pub fn grid(w: usize, h: usize) -> super::Shape {
 
 pub fn monkey_saddle(w: usize, h: usize) -> super::Shape {
 	grid_function(w, h, |mut u, mut v| {
-		u = (u - 0.5) * 3.0;
-		v = (v - 0.5) * 3.0;
+		u = u - 0.5;
+		v = v - 0.5;
 		u.powi(3) + 3.0 * u * v * v
 	})
 }
