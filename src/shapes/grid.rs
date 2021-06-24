@@ -17,7 +17,7 @@ pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Ve
 		for j in 0..w {
 			let x = 1.0 - i as f32 * vstep;
 			let y = 1.0 - j as f32 * hstep;
-			vertices.push(vertex(x, y, f(x, y)));
+			vertices.push(vertex(x, f(x, y), y));
 		}
 	}
 	for i in 0..h - 1 {
@@ -34,7 +34,7 @@ pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Ve
 fn vertex(x: f32, y: f32, z: f32) -> Vertex {
 	Vertex {
 		uv: [x, y],
-		position: [x - 0.5, y - 0.5, z], // to get center at origin
+		position: [x - 0.5, y, z - 0.5], // to get center at origin
 		normal: [0.0, 0.0, 1.0],
 		tangent: [0.0, 1.0, 0.0],
 	}
@@ -44,6 +44,6 @@ fn vertex(x: f32, y: f32, z: f32) -> Vertex {
 mod test {
 	#[test]
 	fn try_() {
-		let g = super::grid(3, 3);
+		super::grid(3, 3);
 	}
 }
