@@ -37,13 +37,14 @@ pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Ve
 
 /// (x+h, f(x+h, z), z) - (x, f(x, z), z) = (h, dxy, 0)
 /// (x, f(x, z+h), z+h) - (x, f(x, z), z) = (0, dzy, h)
-/// n = (h, dxy, 0) x (0, dzy, h) = (dxy * h, h * h, h * dzy) = h * (dxy, h, dzy)
+/// n = (h, dxy, 0) x (0, dzy, h) = (dxy * h, h * h, h * dzy)
+///   = h * (dxy, h, dzy) = h * h * (yu, 1.0, yv)
 fn vertex(x: f32, z: f32, f: &impl Fn(f32, f32) -> f32) -> Vertex {
 	let y = f(x, z);
 	let h = 0.01;
 	let yu = (f(x + h, z) - y) / h;
 	let yv = (f(x, x + h) - y) / h;
-	let n = na::Vector3::new(yu, h, yv).normalize();
+	let n = na::Vector3::new(yu, 1.0, yv).normalize();
 	let t = n.cross(&na::Vector3::x());
 	Vertex {
 		uv: [x, z],
