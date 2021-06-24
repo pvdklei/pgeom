@@ -36,11 +36,17 @@ pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Ve
 }
 
 fn vertex(x: f32, z: f32, f: &impl Fn(f32, f32) -> f32) -> Vertex {
+	let y = f(x, z);
+	let h = 0.01;
+	let yu = (f(x + h, z) - y) / h;
+	let yv = (f(x, x + h) - y) / h;
+	let n = na::Vector3::new(yu, 1.0, yv).normalize();
+	let t = n.cross(&na::Vector3::x());
 	Vertex {
 		uv: [x, z],
-		position: [x - 0.5, f(x, z), z - 0.5], // to get center at origin
-		normal: [0.0, 0.0, 1.0],
-		tangent: [0.0, 1.0, 0.0],
+		position: [x - 0.5, y, z - 0.5], // to get center at origin
+		normal: n.into(),
+		tangent: t.into(),
 	}
 }
 
