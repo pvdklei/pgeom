@@ -8,6 +8,6 @@ mod utils;
 pub use shapes::arrow::arrow;
 pub use shapes::cone::cone;
 pub use shapes::cylinder::cylinder;
-pub use shapes::grid::grid;
+pub use shapes::grid::{grid, monkey_saddle};
 pub use shapes::rectangle::rect;
 pub use shapes::sphere::sphere;

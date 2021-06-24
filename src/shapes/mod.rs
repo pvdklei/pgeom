@@ -5,6 +5,9 @@ pub mod grid;
 pub mod rectangle;
 pub mod sphere;
 
+use crate::types::{Face, Vertex};
+type Shape = (Vec<Vertex>, Vec<Face>);
+
 mod genmesh_tools {
     use crate::types::{Face, Vertex};
     use genmesh::{

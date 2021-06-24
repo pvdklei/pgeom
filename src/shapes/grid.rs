@@ -1,6 +1,14 @@
 use crate::types::{Face, Vertex};
 
-pub fn grid(w: usize, h: usize) -> (Vec<Vertex>, Vec<Face>) {
+pub fn grid(w: usize, h: usize) -> super::Shape {
+	grid_function(w, h, |_, _| 0.0)
+}
+
+pub fn monkey_saddle(w: usize, h: usize) -> super::Shape {
+	grid_function(w, h, |u, v| u.powi(3) + 3.0 * u * v * v)
+}
+
+pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Vertex>, Vec<Face>) {
 	let mut vertices = Vec::new();
 	let mut faces = Vec::new();
 	let hstep = 1.0 / w as f32;
@@ -9,11 +17,11 @@ pub fn grid(w: usize, h: usize) -> (Vec<Vertex>, Vec<Face>) {
 		for j in 0..w {
 			let x = 1.0 - i as f32 * vstep;
 			let y = 1.0 - j as f32 * hstep;
-			vertices.push(vertex(x, y));
+			vertices.push(vertex(x, y, f(x, y)));
 		}
 	}
-	for i in 0..h-1 {
-		for j in 0..w-1 {
+	for i in 0..h - 1 {
+		for j in 0..w - 1 {
 			let base: u32 = (i * w + j) as u32;
 			let w: u32 = w as u32;
 			faces.push([base, base + w + 1, base + 1]);
@@ -23,10 +31,10 @@ pub fn grid(w: usize, h: usize) -> (Vec<Vertex>, Vec<Face>) {
 	(vertices, faces)
 }
 
-fn vertex(x: f32, y: f32) -> Vertex {
+fn vertex(x: f32, y: f32, z: f32) -> Vertex {
 	Vertex {
-		uv: [x, y], 
-		position: [x-0.5, y-0.5, 0.0], // to get center at origin 
+		uv: [x, y],
+		position: [x - 0.5, y - 0.5, 0.0], // to get center at origin
 		normal: [0.0, 0.0, 1.0],
 		tangent: [0.0, 1.0, 0.0],
 	}
