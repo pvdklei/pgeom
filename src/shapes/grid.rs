@@ -5,7 +5,11 @@ pub fn grid(w: usize, h: usize) -> super::Shape {
 }
 
 pub fn monkey_saddle(w: usize, h: usize) -> super::Shape {
-	grid_function(w, h, |u, v| u.powi(3) + 3.0 * u * v * v)
+	grid_function(w, h, |mut u, mut v| {
+		u *= 3.;
+		v *= 3.;
+		u.powi(3) + 3.0 * u * v * v
+	})
 }
 
 pub fn grid_function(w: usize, h: usize, f: impl Fn(f32, f32) -> f32) -> (Vec<Vertex>, Vec<Face>) {
